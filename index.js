@@ -3,6 +3,7 @@ const addTodo = () => {
     let input = {content:document.getElementById("todoInput").value,isDone:false}
     todoList.push(input);
     render(todoList);
+    saveData();
 }
 
 const render = (list) =>{
@@ -36,6 +37,21 @@ const filterList = (type) => {
     }else if (type=='not done'){
         let filteredList = todoList.filter(item => item.isDone==false);
         render(filteredList)
-    }
-    
+    }   
 }
+
+const saveData = () => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+}
+
+const getData = () => {
+    let data = localStorage.getItem("todoList");
+    data = JSON.parse(data);
+    if(data == null){
+        todoList = []
+    }else{
+        todoList = data;
+        render(todoList);
+    }
+}
+getData();
